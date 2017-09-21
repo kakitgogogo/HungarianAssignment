@@ -1,0 +1,1 @@
+g++ -g -o sched sched.cpp assign.cpp
