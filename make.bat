@@ -1,1 +1,1 @@
-g++ -g -o sched sched.cpp assign.cpp
+g++ sched.cpp assign.cpp -o sched -I./libxl_include_cpp -L. -lxl

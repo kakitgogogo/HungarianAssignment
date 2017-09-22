@@ -209,7 +209,5 @@ vector<pair<int, int> > assign(vector<vector<int> >& table, bool maxMode) {
 		minLineCover(table);
 	}
 
-	//printTable(table);
-
 	return res;
 }
