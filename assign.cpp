@@ -10,7 +10,9 @@ using namespace std;
 void printTable(const vector<vector<int> >& table) {
 	for(auto r:table) {
 		for(auto i:r) {
-			cout << i << " ";
+			if(i == -1) cout << "O ";
+			else if(i == -2) cout << "X ";
+			else cout << i << " ";
 		}
 		cout << endl;
 	}
@@ -115,7 +117,7 @@ static void checkColFunc(vector<vector<int> >& table, set<int>& rows, set<int>& 
 	rows.clear();
 	for(auto c:cols) {
 		for(int i = 0; i < n; ++i) {
-			if(table[i][c] == -2) {
+			if(table[i][c] == CIRCLE) {
 				if(checkRow.find(i) == checkRow.end()) {
 					rows.insert(i);
 					checkRow.insert(i);
@@ -130,7 +132,7 @@ static void minLineCover(vector<vector<int> >& table) {
 	set<int> checkRow, checkCol;
 	for(i = 0; i < n; ++i) {
 		for(j = 0; j < n; ++j) {
-			if(table[i][j] == -2) {
+			if(table[i][j] == CIRCLE) {
 				break;
 			}
 		}
@@ -199,14 +201,28 @@ vector<pair<int, int> > assign(vector<vector<int> >& table, bool maxMode) {
 		}
 	}
 
+	auto printTableAndWait = [&](string title){
+#ifdef DEBUG_MODE
+		cout << title << endl;
+		printTable(table);
+		string s;
+		getline(cin, s);
+#endif
+	};
+
+	printTableAndWait("Init Matrix:");
+
 	rowReduce(table);
 	colReduce(table);
+	printTableAndWait("Reduced Matrix:");
 
 	while(true) {
 		res.clear();
 		encircleZero(table, res);
+		printTableAndWait("After encircleZero");
 		if(res.size() == m) break;
 		minLineCover(table);
+		printTableAndWait("After minLineCover:");
 	}
 
 	return res;
